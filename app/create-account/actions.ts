@@ -1,12 +1,10 @@
 "use server";
 
+import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWROD_REGEX_ERROR } from "@/lib/constants";
 import { z } from "zod";
 
 const checkUsername = (username: string) => !username.includes("potato");
 const checkPasswords = ({password, confirm_password}: {password: string, confirm_password: string}) => password === confirm_password;
-const passwrodRegex = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[#?!@$%^&*-]).+$/
-);
 
 const formSchema = z.object({
   username: z.string({
@@ -14,13 +12,12 @@ const formSchema = z.object({
     required_error: "Where is my username??"
   })
   .min(3, "Way too short!!!")
-  .max(10, "That is too loooooong!!!")
   .toLowerCase()
   .trim()
   .transform((data) => data.replace(/\s/g, "-")) // Replace spaces with dashes
   .refine(checkUsername, "No potatoes allowed!"),
-  email: z.string().email(),
-  password: z.string().min(10).regex(passwrodRegex, "A Password must have lowercase, UPPERCASE, numbers and special characters!"),
+  email: z.string().email().toLowerCase(),
+  password: z.string().min(PASSWORD_MIN_LENGTH).regex(PASSWORD_REGEX, PASSWROD_REGEX_ERROR),
   confirm_password: z.string().min(10)
 }).refine(checkPasswords, {
   message: "Boat paaswords should be ths same!",
