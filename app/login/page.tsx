@@ -6,7 +6,7 @@ import SocialLogin from "@/components/social-login";
 
 export default function Login() {
   const onClick = async () => {
-    const response = await fetch("/www/users", {
+    const response = await fetch("/api/users", {
       method: "POST",
       body: JSON.stringify({
         username: "nico",
