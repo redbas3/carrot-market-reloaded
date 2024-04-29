@@ -10,7 +10,7 @@ export default function Home() {
               <span className="z-10">{index}</span>
               <span className="size-6 bg-red-500 rounded-full absolute animate-ping" />
             </div>
-            <a className="btn">link</a>
+            <input type="text" />
           </div>
         ))}
       </div>
