@@ -5,6 +5,8 @@ import SocialLogin from "@/components/social-login";
 export default function Login() {
   const handleForm = async (formData: FormData) => {
     "use server";
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     console.log(formData.get("email"), formData.get("password"));
   };
   return (
@@ -28,7 +30,7 @@ export default function Login() {
           required
           errors={[]}
         />
-        <FormBtn loading={false} text="Login" />
+        <FormBtn text="Login" />
       </form>
       <SocialLogin />
     </div>
