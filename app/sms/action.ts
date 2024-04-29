@@ -1,25 +1,14 @@
 "use server";
 
 import { z } from "zod";
+import validator from "validator";
 
-const formSchema = z.object({
-  email: z.string().email().toLowerCase(),
-  token: z.string({
-    required_error: "Token is required",
-  })
+const phoneSchema = z.string().trim().refine(validator.isMobilePhone, {
+  message: "Invalid phone number",
 });
 
-export const smsVerification = async (prevState: any, formData: FormData) => {
-  const data = {
-    email: formData.get("email"),
-    token: formData.get("token"),
-  };
+const tokenSchema = z.coerce.number().min(100000).max(999999);
 
-  const result = formSchema.safeParse(data);
-  if(!result.success) {
-    return result.error.flatten();
-  }
-  else {
-    console.log(result.data);
-  }
+export const smsLogin = async (prevState: any, formData: FormData) => {
+  
 };
