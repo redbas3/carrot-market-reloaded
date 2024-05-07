@@ -8,18 +8,38 @@ async function test() {
   //     username: "alice",
   //   },
   // });
-  
-  const user = await db.user.findMany({
-    where: {
-      username: {
-        contains: "aa",
-      }
-    },
-  });
 
-  console.log(user);
+  // const user = await db.user.findMany({
+  //   where: {
+  //     username: {
+  //       contains: "aa",
+  //     }
+  //   },
+  // });
+
+  // const token = await db.sMSToken.create({
+  //   data: {
+  //     token: "212212",
+  //     user: {
+  //       connect: {
+  //         id: 1
+  //       }
+  //     }
+  //   }
+  // })
+
+  const token = await db.sMSToken.findUnique({
+    where: {
+      id: 1
+    },
+    include: {
+      user: true
+    }
+  })
+
+  console.log(token);
 }
 
-// test();
+test();
 
 export default db;
