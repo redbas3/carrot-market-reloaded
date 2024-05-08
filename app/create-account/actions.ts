@@ -3,6 +3,7 @@
 import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWROD_REGEX_ERROR } from "@/lib/constants";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const db = new PrismaClient();
 
@@ -65,8 +66,23 @@ export const createAccount = async (prevState: any, formData: FormData) => {
     return result.error.flatten();
   }
   else {
-    // hash pasword
+    // hash password
+    const hashedPassword = await bcrypt.hash(result.data.password, 12);
+    
     // save the user to db
+    const user = await db.user.create({
+      data: {
+        username: result.data.username,
+        email: result.data.email,
+        password: hashedPassword,
+      },
+      select: {
+        id: true,
+      }
+    });
+    console.log(user);
+
+    
     // log the user in
     // redirect to home
 
