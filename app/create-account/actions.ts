@@ -4,6 +4,9 @@ import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWROD_REGEX_ERROR } from "@/lib
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const db = new PrismaClient();
 
@@ -80,11 +83,18 @@ export const createAccount = async (prevState: any, formData: FormData) => {
         id: true,
       }
     });
-    console.log(user);
 
-    
     // log the user in
-    // redirect to home
+    const cookie = await getIronSession(cookies(), {
+      cookieName: "delicious-karrot",
+      password: process.env.COOKIE_PASSWORD!,
+    });
 
+    // @ts-ignore
+    cookie.id = user.id;
+    await cookie.save();
+
+    // redirect to home
+    redirect("/profile");
   }
 };
