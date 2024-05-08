@@ -34,8 +34,8 @@ const checkUniqueEmail = async (email: string) => {
   return !Boolean(user);
 }
 
-
-const formSchema = z.object({
+const formSchema = z
+.object({
   username: z.string({
     invalid_type_error: "Username must be a string",
     required_error: "Where is my username??"
@@ -44,13 +44,52 @@ const formSchema = z.object({
   .toLowerCase()
   .trim()
   .transform((data) => data.replace(/\s/g, "-")) // Replace spaces with dashes
-  .refine(checkUsername, "No potatoes allowed!")
-  .refine(checkUniqueUsername, "This username is already taken!"),
-  email: z.string().email().toLowerCase()
-  .refine(checkUniqueEmail, "There is an account already registered with this email!"),
+  .refine(checkUsername, "No potatoes allowed!"),
+  email: z.string().email().toLowerCase(),
   password: z.string().min(PASSWORD_MIN_LENGTH).regex(PASSWORD_REGEX, PASSWROD_REGEX_ERROR),
   confirm_password: z.string().min(10)
-}).refine(checkPasswords, {
+})
+.superRefine(async ({ username }, ctx) => {
+  const user = await db.user.findUnique({
+    where: {
+      username
+    },
+    select: {
+      id: true,
+    },
+  });
+  if(user) {
+    ctx.addIssue({
+      code: "custom",
+      path: ['username'],
+      message: "This username is already taken!",
+      fatal: true,
+    });
+
+    return z.NEVER;
+  }
+})
+.superRefine(async ({ email }, ctx) => {
+  const user = await db.user.findUnique({
+    where: {
+      email
+    },
+    select: {
+      id: true,
+    },
+  });
+  if(user) {
+    ctx.addIssue({
+      code: "custom",
+      path: ['email'],
+      message: "There is an account already registered with this email!",
+      fatal: true,
+    });
+
+    return z.NEVER;
+  }
+})
+.refine(checkPasswords, {
   message: "Boat paaswords should be ths same!",
   path: ["confirm_password"]
 });
