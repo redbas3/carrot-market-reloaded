@@ -1,7 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import getSession from "@/lib/session";
+import userLogin from "@/lib/login";
+import { checkExistUsername, getAccessToken, getGithubEmail, getGithubProfile } from "./actions";
 
 const db = new PrismaClient();
 
@@ -12,34 +13,10 @@ export async function GET(request: NextRequest) {
     notFound();
   }
 
-  const accessTokenParams = new URLSearchParams({
-    client_id: process.env.GITHUB_CLIENT_ID!,
-    client_secret: process.env.GITHUB_CLIENT_SECRET!,
-    code,
-  }).toString();
+  const access_token = await getAccessToken(code);
+  const { id, avatar_url, login } = await getGithubProfile(access_token);
+  const email = await getGithubEmail(access_token);
   
-  const accessTokenUrl = `https://github.com/login/oauth/access_token?${accessTokenParams}`;
-  const accessTokenResponse = await fetch(accessTokenUrl, {
-    method: "POST",
-    headers: {
-      Accept: "application/json"
-    }
-  });
-  const { error, access_token } = await accessTokenResponse.json();
-  // const accessToken = accessTokenData.access_token;
-  if(error) {
-    return new Response(null, {
-      status: 400,
-    })
-  }
-
-  const userProfileResponse = await fetch("https://api.github.com/user", {
-    headers: {
-      Authorization: `Bearer ${access_token}`
-    },
-    cache: "no-cache"
-  });
-  const { id, avatar_url, login } = await userProfileResponse.json();
   const user = await db.user.findUnique({
     where: {
       github_id: id + "",
@@ -49,26 +26,24 @@ export async function GET(request: NextRequest) {
     }
   });
   if(user) {
-    const session = await getSession();
-    session.id = user.id;
-    await session.save();
-
+    await userLogin(user.id);
     return redirect("/profile");
   }
 
+  const existingUser = await checkExistUsername(login);
+
   const newUser = await db.user.create({
     data: {
-      username: login,
+      username: existingUser? `${login}-gh` : login,
       github_id: id + "",
       avatar: avatar_url,
+      email
     },
     select: {
       id: true,
     }
   });
 
-  const session = await getSession();
-  session.id = newUser.id;
-  await session.save();
+  await userLogin(newUser.id);
   return redirect("/profile");
 }

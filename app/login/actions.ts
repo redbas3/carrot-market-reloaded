@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import getSession from "@/lib/session";
 import { PrismaClient } from "@prisma/client";
+import userLogin from "@/lib/login";
 
 const db = new PrismaClient();
 
@@ -57,10 +58,7 @@ export const login = async (prevState: any, formData: FormData) => {
 
     if(ok) {
       // log the user in
-      const session = await getSession();
-      session.id = user!.id;
-      session.save();
-
+      await userLogin(user!.id);
       redirect("/profile");
     }
     else {
