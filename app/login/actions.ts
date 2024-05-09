@@ -2,10 +2,10 @@
 
 import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWROD_REGEX_ERROR } from "@/lib/constants";
 import { z } from "zod";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import getSession from "@/lib/session";
+import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 

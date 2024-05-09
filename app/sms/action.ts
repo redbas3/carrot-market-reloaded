@@ -3,7 +3,6 @@
 import { z } from "zod";
 import validator from "validator";
 import { redirect } from "next/navigation";
-import { error } from "console";
 
 const phoneSchema = z.string().trim().refine(validator.isMobilePhone, "Wrong  phone format");
 
