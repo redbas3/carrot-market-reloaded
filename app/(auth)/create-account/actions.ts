@@ -2,13 +2,10 @@
 
 import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWROD_REGEX_ERROR } from "@/lib/constants";
 import { z } from "zod";
-import { PrismaClient } from "@prisma/client";
+import db from "@/lib/db";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
-import getSession from "@/lib/session";
 import userLogin from "@/lib/login";
-
-const db = new PrismaClient();
 
 const checkUsername = (username: string) => !username.includes("potato");
 const checkPasswords = ({password, confirm_password}: {password: string, confirm_password: string}) => password === confirm_password;

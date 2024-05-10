@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import getSession from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
-const db = new PrismaClient();
+import db from "@/lib/db";
 
 async function getUser() {
   const session = await getSession();

@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const db = new PrismaClient();
+import db from "@/lib/db";
 
 export async function getAccessToken(code: string) {
   const accessTokenParams = new URLSearchParams({

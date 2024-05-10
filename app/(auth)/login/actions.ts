@@ -4,11 +4,8 @@ import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWROD_REGEX_ERROR } from "@/lib
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
-import getSession from "@/lib/session";
-import { PrismaClient } from "@prisma/client";
+import db from "@/lib/db";
 import userLogin from "@/lib/login";
-
-const db = new PrismaClient();
 
 const checkEmailExists = async (email: string) => {
   const user = await db.user.findUnique({

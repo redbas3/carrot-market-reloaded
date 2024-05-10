@@ -1,10 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import db from "@/lib/db";
 import userLogin from "@/lib/login";
 import { checkExistUsername, getAccessToken, getGithubEmail, getGithubProfile } from "./actions";
-
-const db = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");

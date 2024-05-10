@@ -1,10 +1,7 @@
 import ListProduct from "@/components/list-product";
-import { PrismaClient } from "@prisma/client";
-const db = new PrismaClient();
+import db from "@/lib/db";
 
 async function getProducts() {
-  // await new Promise((resolve) => setTimeout(resolve, 10000));
-
   const products = await db.product.findMany({
     select: {
       title: true,
