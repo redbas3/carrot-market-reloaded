@@ -12,10 +12,18 @@ interface ProductListProps {
 export default function ProductList({ initialProducts }: ProductListProps) {
   const [products, setProducts] = useState(initialProducts);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [lastPage, setLastPage] = useState(false);
   const onLoadMoreClick = async () => {
     setIsLoading(true);
-    const newProducts = await getMoreProducts(products.length);
-    setProducts((prev) => [...prev, ...newProducts]);
+    const newProducts = await getMoreProducts(page + 1);
+    if (newProducts.length !== 0) {
+      setPage(prev => prev + 1);
+      setProducts((prev) => [...prev, ...newProducts]);
+    }
+    else {
+      setLastPage(true);
+    }
     setIsLoading(false);
   };
   return (
@@ -23,13 +31,13 @@ export default function ProductList({ initialProducts }: ProductListProps) {
       {products.map((product) => (
         <ListProduct key={product.id} {...product} />
       ))}
-      <button
+      {!lastPage ? <button
         onClick={onLoadMoreClick}
         disabled={isLoading}
         className="text-sm font-semibold rounded-md bg-orange-500 text-white px-3 py-2 mx-auto hover:opacity-90 active:scale-95"
       >
         {isLoading ? "로딩중" : "Load more"}
-      </button>
+      </button> : null}
     </div>
   );
 }
