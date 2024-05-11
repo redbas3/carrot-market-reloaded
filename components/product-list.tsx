@@ -65,10 +65,7 @@ export default function ProductList({ initialProducts }: ProductListProps) {
       {!isLastPage ?
         <span
           ref={trigger}
-          style={{
-            marginTop: `${page + 1 * 200}vh`,
-          }}
-          className="mb-96 text-sm font-semibold rounded-md bg-orange-500 text-white px-3 py-2 mx-auto hover:opacity-90 active:scale-95"
+          className="text-sm font-semibold rounded-md bg-orange-500 text-white px-3 py-2 mx-auto hover:opacity-90 active:scale-95"
         >
           {isLoading ? "로딩중" : "Load more"}
         </span> : null}
