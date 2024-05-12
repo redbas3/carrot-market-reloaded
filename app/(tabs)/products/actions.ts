@@ -3,7 +3,6 @@
 import db from "@/lib/db";
 
 export async function getMoreProducts(page: number) {
-  console.log(page);
   const products = await db.product.findMany({
     select: {
       title: true,

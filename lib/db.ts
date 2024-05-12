@@ -30,14 +30,12 @@ async function test() {
 
   const token = await db.sMSToken.findUnique({
     where: {
-      id: 1
+      id: 1,
     },
     include: {
-      user: true
-    }
-  })
-
-  console.log(token);
+      user: true,
+    },
+  });
 }
 
 test();

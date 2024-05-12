@@ -43,7 +43,6 @@ export default async function ProductDetail({
   if (!product) {
     return notFound();
   }
-  console.log(product);
   const isOwner = await getIsOwner(product.userId);
   return (
     <div>
