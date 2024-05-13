@@ -45,7 +45,7 @@ export default function AddProduct() {
     const photoUrl = `https://imagedelivery.net/9DjHh4US4bMQIKATRg9HpA/${imageId}`;
     formData.set("photo", photoUrl);
     return uploadProduct(_, formData);
-  }
+  };
   const [state, action] = useFormState(interceptAction, null);
   return (
     <div>
