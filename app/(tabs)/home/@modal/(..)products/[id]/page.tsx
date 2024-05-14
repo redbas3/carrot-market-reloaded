@@ -1,15 +1,18 @@
 "use client";
 
 import { PhotoIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 
 export default function Modal({ params }: { params: { id: string } }) {
+  const router = useRouter();
   const id = Number(params.id);
   if (isNaN(id)) {
     return notFound();
   }
 
-  const onCloseClick = () => {};
+  const onCloseClick = () => {
+    router.back();
+  };
 
   return (
     <div className="absolute w-full h-full z-50 flex justify-center items-center bg-black bg-opacity-60 left-0 top-0">
