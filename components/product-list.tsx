@@ -66,14 +66,14 @@ export default function ProductList({ initialProducts }: ProductListProps) {
       {products.map((product) => (
         <ListProduct key={product.id} {...product} />
       ))}
-      {!isLastPage ? (
+      {/* {!isLastPage ? (
         <span
           ref={trigger}
           className="text-sm font-semibold rounded-md bg-orange-500 text-white px-3 py-2 mx-auto hover:opacity-90 active:scale-95"
         >
           {isLoading ? "로딩중" : "Load more"}
         </span>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }
