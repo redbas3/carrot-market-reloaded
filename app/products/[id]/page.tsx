@@ -8,10 +8,11 @@ import { formatToWon } from "@/lib/utils";
 import { unstable_cache as nextCache } from "next/cache";
 
 async function getIsOwner(userId: number) {
-  const session = await getSession();
-  if (session.id) {
-    return session.id === userId;
-  }
+  // const session = await getSession();
+  // if (session.id) {
+  //   return session.id === userId;
+  // }
+  return false;
 }
 
 async function getProduct(id: number) {
@@ -122,4 +123,15 @@ export default async function ProductDetail({
       </div>
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const products = await db.product.findMany({
+    select: {
+      id: true,
+    },
+  });
+  return products.map((product) => ({
+    id: String(product.id),
+  }));
 }
