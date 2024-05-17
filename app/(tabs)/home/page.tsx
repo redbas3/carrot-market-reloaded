@@ -29,6 +29,8 @@ export type InitialProducts = Prisma.PromiseReturnType<
   typeof getInitialProducts
 >;
 
+export const revalidate = 60;
+
 export default async function Products() {
   const initialProducts = await getCashedProducts();
   const revalidate = async () => {
