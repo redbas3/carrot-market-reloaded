@@ -59,6 +59,8 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
+export const dynamicPrarams = true;
+
 export default async function ProductDetail({
   params,
 }: {
