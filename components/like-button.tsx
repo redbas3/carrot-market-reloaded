@@ -18,7 +18,7 @@ export default function LikeButton({ likeCount, isLiked, postId }: LikeButtonPro
   }));
 
   const onClick = async () => {
-    reducerFn(10000);
+    reducerFn(undefined);
 
     if (state.isLiked) {
       await dislikePost(postId);
@@ -28,7 +28,10 @@ export default function LikeButton({ likeCount, isLiked, postId }: LikeButtonPro
     }
   }
 
-  return <button onClick={onClick} className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2 ${isLiked ? "bg-orange-500 text-white border-orange-500" : ""}`}>
+  return <button onClick={onClick} className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2  transition-colors ${state.isLiked
+    ? "bg-orange-500 text-white border-orange-500"
+    : "hover:bg-neutral-800"
+    }`}>
     {state.isLiked ? <HandThumbUpIcon className="size-5" /> : <OutlineHandThumbUpIcon className="size-5" />}
     {state.isLiked ? <span>{state.likeCount}</span> : <span>공감하기 ({state.likeCount})</span>}
   </button>

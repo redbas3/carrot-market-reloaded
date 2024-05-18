@@ -118,7 +118,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
     </div>
     <h2 className="text-lg font-semibold">{post.title}</h2>
     <p className="mb-5">{post.description}</p>
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 items-start">
       <div className="flex items-center gap-2 text-neutral-400 text-sm">
         <EyeIcon className="size-5" />
         <span>조회 {post.views}</span>
