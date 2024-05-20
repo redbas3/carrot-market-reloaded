@@ -15,11 +15,13 @@ const config: Config = {
       },
       borderRadius: {
         "new-value": "11.11px",
-      }
+      },
+      fontFamily: {
+        roboto: "var(--roboto)",
+        rubik: "var(--rubic-scribble)",
+      },
     },
   },
-  plugins: [
-    require("@tailwindcss/forms"),
-  ],
+  plugins: [require("@tailwindcss/forms")],
 };
 export default config;
