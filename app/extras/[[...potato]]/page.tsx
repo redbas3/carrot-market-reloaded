@@ -4,7 +4,6 @@ import {
   experimental_taintUniqueValue,
 } from "react";
 import { fetchFromApi } from "./actions";
-import Image from "next/image";
 
 async function getSomeData() {
   const keys = {
