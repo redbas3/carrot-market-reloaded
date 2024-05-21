@@ -17,8 +17,7 @@ const config: Config = {
         "new-value": "11.11px",
       },
       fontFamily: {
-        roboto: "var(--roboto)",
-        rubik: "var(--rubic-scribble)",
+        roboto: "var(--roboto)"
       },
     },
   },
