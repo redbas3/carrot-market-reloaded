@@ -1,3 +1,22 @@
+import HackedComponent from "@/components/hacked-component";
+import {
+  experimental_taintObjectReference,
+  experimental_taintUniqueValue,
+} from "react";
+import { fetchFromApi } from "./actions";
+import Image from "next/image";
+import heavyImage from "../../../public/DSCF5911.jpg";
+
+async function getSomeData() {
+  const keys = {
+    apiKey: "12312323",
+    secret: "3243434",
+  };
+  // experimental_taintObjectReference("API Keys were leaked!", keys);
+  experimental_taintUniqueValue("API Keys were leaked!", keys, keys.apiKey);
+  return keys;
+}
+
 async function getData() {
   const data = await fetch(
     "https://nomad-movies.nomadcoders.workers.dev/movies"
@@ -9,11 +28,15 @@ export default async function Extras({
 }: {
   params: { potato: string[] };
 }) {
-  const movies = await getData();
+  // const movies = await getData();
+  const data = await getSomeData();
+  // const data = fetchFromApi();
   return (
     <div>
       <h1 className="text-5xl font-rubik">Extras!</h1>
       <p>So much more to learn!</p>
+      {/* <HackedComponent data={data} /> */}
+      <Image src={heavyImage} alt="" placeholder="blur" />
     </div>
   );
 }
