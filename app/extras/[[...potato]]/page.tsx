@@ -5,7 +5,7 @@ import {
 } from "react";
 import { fetchFromApi } from "./actions";
 import Image from "next/image";
-import heavyImage from "../../../public/DSCF5911.jpg";
+import heavyImage from "/public/DSCF5911.jpg";
 
 async function getSomeData() {
   const keys = {
