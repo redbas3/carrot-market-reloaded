@@ -5,6 +5,8 @@ import { Prisma } from "@prisma/client";
 import { unstable_cache as nextCache, revalidatePath } from "next/cache";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 const getCashedProducts = nextCache(getInitialProducts, ["home-products"]);
 
 async function getInitialProducts() {
