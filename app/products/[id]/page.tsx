@@ -3,7 +3,12 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import Link from "next/link";
 import Image from "next/image";
-import { UserIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowLeftIcon,
+  BackspaceIcon,
+  BackwardIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
 import { formatToWon } from "@/lib/utils";
 import { unstable_cache as nextCache } from "next/cache";
 
@@ -76,7 +81,12 @@ export default async function ProductDetail({
   const isOwner = await getIsOwner(product.userId);
   return (
     <div>
-      <div className="relative aspect-square">
+      <div className="py-5">
+        <Link href="/home" className="text-neutral-500">
+          <ArrowLeftIcon className="size-6" />
+        </Link>
+      </div>
+      <div className="relative aspect-square w-8/12 mx-auto">
         <Image
           fill
           src={`${product.photo}/public`}
@@ -105,7 +115,7 @@ export default async function ProductDetail({
         <h1 className="text-2xl font-semibold">{product.title}</h1>
         <p>{product.description}</p>
       </div>
-      <div className="fixed w-full bottom-0 left-0 p-5 pb-10 bg-neutral-800 flex justify-between">
+      {/* <div className="fixed w-full bottom-0 left-0 p-5 pb-10 bg-neutral-800 flex justify-between">
         <span className="font-semibold text-lg">
           {formatToWon(product.price)}
         </span>
@@ -120,7 +130,7 @@ export default async function ProductDetail({
         >
           채팅하기
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }

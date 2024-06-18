@@ -13,7 +13,12 @@ export default function AddProduct() {
   const [preview, setPreivew] = useState("");
   const [uploadUrl, setUploadUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<ProductType>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<ProductType>({
     resolver: zodResolver(productSchema),
   });
   const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +36,10 @@ export default function AddProduct() {
     if (success) {
       const { id, uploadURL } = result;
       setUploadUrl(uploadURL);
-      setValue("photo", `https://imagedelivery.net/9DjHh4US4bMQIKATRg9HpA/${id}`);
+      setValue(
+        "photo",
+        `https://imagedelivery.net/9DjHh4US4bMQIKATRg9HpA/${id}`
+      );
     }
   };
   const onSubmit = handleSubmit(async (data: ProductType) => {
@@ -65,7 +73,7 @@ export default function AddProduct() {
           style={{
             backgroundImage: `url(${preview})`,
           }}
-          className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
+          className="border-2 w-72 mx-auto aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
         >
           {preview === "" ? (
             <>

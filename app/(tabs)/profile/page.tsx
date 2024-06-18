@@ -38,7 +38,7 @@ export default async function Profile() {
   };
   return (
     <div>
-      <Suspense fallback={"<h1>Weolcome!</h1>"}>
+      <Suspense fallback={<h1>Weolcome!</h1>}>
         <Username />
       </Suspense>
       <form action={logOut}>

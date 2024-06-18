@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.variable} font-roboto bg-neutral-900 text-white max-w-screen-sm mx-auto`}
+        className={`${roboto.variable} font-roboto bg-neutral-900 text-white max-w-screen-md mx-auto`}
       >
         {children}
       </body>
