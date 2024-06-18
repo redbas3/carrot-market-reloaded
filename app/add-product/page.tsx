@@ -2,12 +2,13 @@
 
 import Button from "@/components/button";
 import Input from "@/components/input";
-import { PhotoIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { getUploadUrl, uploadProduct } from "./actions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductType, productSchema } from "./schema";
+import Link from "next/link";
 
 export default function AddProduct() {
   const [preview, setPreivew] = useState("");
@@ -67,6 +68,11 @@ export default function AddProduct() {
   };
   return (
     <div>
+      <div className="py-5">
+        <Link href="/home" className="text-neutral-500">
+          <ArrowLeftIcon className="size-6" />
+        </Link>
+      </div>
       <form action={onVaild} className="p-5 flex flex-col gap-5">
         <label
           htmlFor="photo"
