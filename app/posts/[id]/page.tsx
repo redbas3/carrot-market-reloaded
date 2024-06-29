@@ -1,9 +1,6 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
-import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
 import LikeButton from "@/components/like-button";
@@ -31,11 +28,12 @@ async function getPost(id: number) {
             comments: true,
           },
         },
-      }
+      },
     });
 
     return post;
   } catch (e) {
+    // console.log(e);
     return null;
   }
 }
@@ -52,21 +50,21 @@ async function getLikeStatus(postId: number) {
       return {
         likeCount: 0,
         isLiked: false,
-      }
+      };
     }
     const isLiked = await db.like.findUnique({
       where: {
         id: {
           postId,
           userId: session.id,
-        }
+        },
       },
     });
 
     const likeCount = await db.like.count({
       where: {
         postId,
-      }
+      },
     });
 
     return {
@@ -77,7 +75,7 @@ async function getLikeStatus(postId: number) {
     return {
       likeCount: 0,
       isLiked: false,
-    }
+    };
   }
 }
 
@@ -88,7 +86,11 @@ function getCachedLikeStatus(postId: number) {
   return cachedOperation(postId);
 }
 
-export default async function PostDetail({ params }: { params: { id: string } }) {
+export default async function PostDetail({
+  params,
+}: {
+  params: { id: string };
+}) {
   const id = Number(params.id);
 
   if (isNaN(id)) {
@@ -101,15 +103,17 @@ export default async function PostDetail({ params }: { params: { id: string } })
 
   const { likeCount, isLiked } = await getCachedLikeStatus(id);
 
-  return <div className="p-5 text-white">
-    <h2 className="text-lg font-semibold">{post.title}</h2>
-    <p className="mb-5">{post.description}</p>
-    <div className="flex flex-col gap-5 items-start">
-      <div className="flex items-center gap-2 text-neutral-400 text-sm">
-        <EyeIcon className="size-5" />
-        <span>조회 {post.views}</span>
+  return (
+    <div className="p-5 text-white">
+      <h2 className="text-lg font-semibold">{post.title}</h2>
+      <p className="mb-5">{post.description}</p>
+      <div className="flex flex-col gap-5 items-start">
+        <div className="flex items-center gap-2 text-neutral-400 text-sm">
+          <EyeIcon className="size-5" />
+          <span>조회 {post.views}</span>
+        </div>
+        <LikeButton likeCount={likeCount} isLiked={isLiked} postId={id} />
       </div>
-      <LikeButton likeCount={likeCount} isLiked={isLiked} postId={id} />
     </div>
-  </div>
+  );
 }
